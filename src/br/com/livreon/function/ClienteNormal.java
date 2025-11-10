@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
+
 //Cliente normal
 public class ClienteNormal extends Cliente {
     //Atributos
@@ -49,8 +51,8 @@ public class ClienteNormal extends Cliente {
     }
     //alugar livro local
     @Override
-    public void alugarLivro(String titulo ) {
-        ClienteBD.alugarLivro(titulo,this);
+    public void alugarLivro(int idCliente, int idLivro, LocalDate devolução) {
+            ClienteBD.aluguel(idCliente, idLivro, devolução);
     }
 
     //Metodo de devolver livro
@@ -89,15 +91,14 @@ public class ClienteNormal extends Cliente {
     }
     //Metodo encapsulado para adicionar o cliente no DB
     protected static void adiocionarAoBanco(Cliente c){
-            String sql = "INSERT INTO clientes (nome, email, titulo_cliente , Qtd_livro , tipo_cliente) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO clientes (nome, email,  Qtd_livro , tipo_cliente) VALUES (?, ?, ?, ?)";
             try(Connection conector = MySqlConnector.getConnetion();
                 PreparedStatement preparo = conector.prepareStatement(sql)) {
 
                 preparo.setString(1, c.getNome());
                 preparo.setString(2, c.getEmail());
-                preparo.setNull(3, Types.VARCHAR);
-                preparo.setInt(4, 0);
-                preparo.setString( 5,"Cliente normal");
+                preparo.setInt(3, 0);
+                preparo.setString( 4,"Cliente normal");
 
                 int linhasAfetadas = preparo.executeUpdate();
                 if(linhasAfetadas > 0){

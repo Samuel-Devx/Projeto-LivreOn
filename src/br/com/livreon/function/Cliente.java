@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -17,7 +18,7 @@ public abstract class Cliente {
     private String nome;
     private String email;
     //metodos
-    public void alugarLivro(String titulo){};
+    public void alugarLivro(int idCliente, int idLivro, LocalDate devolução){};
     public void devolverLivro(Biblioteca l, String titulo){};
     public void minhaInfo() {}
     public void mostrarLivrosAlugadosCliete() {}

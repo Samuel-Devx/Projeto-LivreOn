@@ -17,7 +17,7 @@ public class Biblioteca {
         conjutoDeLivro = new ArrayList<>();
     }
 
-    //Método que cadastra o livro e já adciona ele no DB
+    //Metodo que cadastra o livro e já adciona ele no DB
     public void cadastrarLivro(String titulo, String autor, int codico){
         Livro l = new Livro(titulo, autor, codico);
         conjutoDeLivro.add(l);
@@ -197,17 +197,16 @@ public class Biblioteca {
         try(Connection con = MySqlConnector.getConnetion();
         PreparedStatement preparo = con.prepareStatement(sql);
         ResultSet set = preparo.executeQuery()){
-
-            String nome = set.getString("nome");
-            String email = set.getString("email");
-            String livro = set.getString("titulo_cliente");
-            int quantidade = set.getInt("Qtd_livro");
-            String tipo = set.getString("tipo_cliente");
-            System.out.println("Nome: " + nome +
-                    "| Email: " + email +
-                    "| livro: " + livro +
-                    "| Quantidade de Livros: " + quantidade +
-                    "| Tipo cliente: " + tipo);
+            while (set.next()){
+                String nome = set.getString("nome");
+                String email = set.getString("email");
+                int quantidade = set.getInt("Qtd_livro");
+                String tipo = set.getString("tipo_cliente");
+                System.out.println("Nome: " + nome +
+                        "| Email: " + email +
+                        "| Quantidade de Livros: " + quantidade +
+                        "| Tipo cliente: " + tipo);
+            }
 
 
     } catch (SQLException e) {

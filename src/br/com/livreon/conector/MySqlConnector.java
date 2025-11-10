@@ -8,7 +8,7 @@ import java.sql.SQLOutput;
 public class MySqlConnector {
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/livraria";
     private static final String USER = "root";
-    private static final String SENHA = "192119";
+    private static final String SENHA = System.getenv("DB_PASSWORD");
 
    public static Connection getConnetion(){
        try {

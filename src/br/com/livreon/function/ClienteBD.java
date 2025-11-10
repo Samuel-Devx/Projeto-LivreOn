@@ -2,10 +2,9 @@ package br.com.livreon.function;
 
 import br.com.livreon.conector.MySqlConnector;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+
 //Funcionamento cliente banco de dedos
 public class ClienteBD {
     //metodos para pegar informações do cliente no banco de dados
@@ -43,6 +42,28 @@ public class ClienteBD {
     } catch (SQLException e) {
         System.out.println("ERRO ALUGAR ESSE LIVRO " + e.getMessage());
             }
+        }
 
+    protected static  void aluguel (int idCliente, int idLivro, LocalDate devolucao){
+        String sql = "INSERT INTO aluguel (id_cliente, id_livro, data_aluguel, data_devolucao) VALUES  (?, ?, ?, ?)";
+        try(Connection con = MySqlConnector.getConnetion()) {
+            PreparedStatement set = con.prepareStatement(sql);
+            set.setInt(1,idCliente);
+            set.setInt(2, idLivro);
+            set.setDate(3, Date.valueOf(LocalDate.now()));
+            set.setDate(4, Date.valueOf(devolucao));
+
+            String sqlUpdate = "UPDATE livros SET status = true WHERE id = ? ";
+            PreparedStatement setStatus = con.prepareStatement(sqlUpdate);
+            setStatus.setInt(1, idLivro);
+
+            int linhasAfetaas = set.executeUpdate();
+            if(linhasAfetaas > 0){
+                System.out.println("Aluguado com sucesso!");
+            }
+        } catch (SQLException e) {
+            System.out.println("ERRO em alugar! ");
         }
     }
+}
+
