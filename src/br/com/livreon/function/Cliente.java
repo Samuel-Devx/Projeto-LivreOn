@@ -17,6 +17,7 @@ public abstract class Cliente {
     //Atributos
     private String nome;
     private String email;
+    private String senha;
     //metodos
     public void alugarLivro(int idCliente, int idLivro, LocalDate devolução){};
     public void devolverLivro(Biblioteca l, String titulo){};

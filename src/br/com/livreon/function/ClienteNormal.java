@@ -18,18 +18,10 @@ public class ClienteNormal extends Cliente {
     private static String tipoCliente;
 
     //Construtor
-    public ClienteNormal(String nome, String email) {
-        super(nome, email);
-
-        tipoCliente = "Cliente normal";
-        adiocionarAoBanco(this);
+    public ClienteNormal(String nome, String email, String senha) {
+        super(nome, email, senha);
     }
 
-    //Metodo que adiciona o cliente dentro do encapsulado
-    private static void adcionarClienteNomal(String nome, String email){
-        Cliente c = new ClienteNormal(nome, email);
-        adiocionarAoBanco(c);
-    }
 
     //Metodo de formatação para visibilidade do cliente
     private static String getTitulo(){
@@ -44,10 +36,6 @@ public class ClienteNormal extends Cliente {
     //Get quantidade
     private static  int getQuantidade (){
         return livrosAlugado;
-    }
-    //Metodo de alugar livro atualizando banco de dados
-    public void alugarLivroBD(String titulo) {
-        ClienteBD.alugarLivro(titulo,this);
     }
     //alugar livro local
     @Override
@@ -89,25 +77,7 @@ public class ClienteNormal extends Cliente {
                 " | Livros alugado: " + livrosAlugado + "\n";
 
     }
-    //Metodo encapsulado para adicionar o cliente no DB
-    protected static void adiocionarAoBanco(Cliente c){
-            String sql = "INSERT INTO clientes (nome, email,  Qtd_livro , tipo_cliente) VALUES (?, ?, ?, ?)";
-            try(Connection conector = MySqlConnector.getConnetion();
-                PreparedStatement preparo = conector.prepareStatement(sql)) {
 
-                preparo.setString(1, c.getNome());
-                preparo.setString(2, c.getEmail());
-                preparo.setInt(3, 0);
-                preparo.setString( 4,"Cliente normal");
-
-                int linhasAfetadas = preparo.executeUpdate();
-                if(linhasAfetadas > 0){
-                    System.out.println("Cliente adicionado com sucesso!");
-                }
-            } catch (SQLException e) {
-                System.out.println("ERRO EM ADD O CLIENTE DENTRO DO BANCO DE DADOS" + e.getMessage());
-            }
-        }
 
     }
 

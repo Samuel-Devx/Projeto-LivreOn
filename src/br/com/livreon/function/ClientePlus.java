@@ -10,10 +10,8 @@ public class ClientePlus extends Cliente{
     private List<Livro> listaLivro = new ArrayList<>();
     private String tipoCliente;
     //Construtor
-    public ClientePlus(String nome, String email) {
-        super(nome, email);
-        tipoCliente = "Cliente Plus";
-        ClienteNormal.adiocionarAoBanco(this);
+    public ClientePlus(String nome, String email, String senha) {
+        super(nome, email, senha);
     }
 
     public void alugarLivro(Biblioteca nomeBiblioteca, String titulo){

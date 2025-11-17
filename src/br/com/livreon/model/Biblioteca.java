@@ -2,6 +2,7 @@ package br.com.livreon.model;
 
 import br.com.livreon.conector.MySqlConnector;
 import br.com.livreon.function.Cliente;
+import lombok.Data;
 
 import javax.crypto.spec.PSource;
 import java.sql.*;
@@ -39,13 +40,13 @@ public class Biblioteca {
     }
 
     //Classe para formatar boolean para usuario (encapsulada)
-    private String formatação (Boolean valor){
+    public static String formatação(Boolean valor){
         if(valor == false)
         {
             return " -Disponivel!";
         }
         else{
-            return " -Alugado";
+            return " -Alugado!";
         }
     }
     //Classe que busca no DB todos os livros que estã disponiveis
@@ -82,7 +83,6 @@ public class Biblioteca {
 
     //Metodo que mostra todos os livros que já foram alugado em pesquisa com o DB
     public void mostrarLivrosAlugados(){
-        if (!conjutoDeLivro.isEmpty()){
             //--- sql
             String sql = "SELECT * FROM livros WHERE status = 1";
             try(Connection coon = MySqlConnector.getConnetion();
@@ -102,13 +102,6 @@ public class Biblioteca {
             System.out.println("erro em mostrar" + e.getMessage());
         }
 
-            conjutoDeLivro.stream()
-                    .filter(l -> l.getEmprestimo() == true)
-                    .forEach(System.out::println);
-        }
-        else {
-            System.out.println("Não exixte livros cadastrados");
-        }
     }
 
     //Analisa o codico do livro e deleta do DB
@@ -213,7 +206,24 @@ public class Biblioteca {
             System.out.println("ERRO EM EXIBIR A TABELA " + e.getMessage());
         }
     }
-
+    //Mostra tabela geral de aluguel
+    public void tabelaGeralAluguel(){
+        String sql = "SELECT * FROM tabela_geral";
+        try (Connection con  = MySqlConnector.getConnetion();
+        PreparedStatement set = con.prepareStatement(sql);
+        ResultSet resultado = set.executeQuery()) {
+            while (resultado.next()) {
+                String nome = resultado.getString("Nome");
+                Date data = resultado.getDate("Devolução");
+                String livro = resultado.getString("Livro");
+                System.out.println("Nome: " + nome +
+                        "| Data Devolução: " + data +
+                        "| Livro: " + livro);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro em exibir " + e.getMessage());
+        }
+    }
     //Mostra a quantidade de Cliente cadastrados
     public void quantidadeClientesCadastrados(){
         String sql = "SELECT count(id) AS  Quantidade_Clientes FROM clientes";
