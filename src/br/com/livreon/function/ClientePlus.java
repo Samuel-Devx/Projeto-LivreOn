@@ -20,6 +20,7 @@ public class ClientePlus extends Cliente{
         escolhido.setEmprestimo(true);
         listaLivro.add(escolhido);
     };
+
     public void devolverLivro(Biblioteca nomeBiblioteca, String titulo){
 
         if(listaLivro.contains(listaLivro)){
@@ -33,9 +34,11 @@ public class ClientePlus extends Cliente{
         }
 
     };
+
     public void minhaInfo() {
         System.out.println(this);
     }
+
     public void mostrarLivrosAlugadosCliete(){
         listaLivro.stream()
                 .forEach(System.out::println);

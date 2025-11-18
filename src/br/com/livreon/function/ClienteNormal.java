@@ -33,15 +33,18 @@ public class ClienteNormal extends Cliente {
         }
 
     }
+
     //Get quantidade
     private static  int getQuantidade (){
         return livrosAlugado;
     }
     //alugar livro local
+
     @Override
     public void alugarLivro(int idCliente, int idLivro, LocalDate devolução) {
             ClienteBD.aluguel(idCliente, idLivro, devolução);
     }
+
 
     //Metodo de devolver livro
     @Override
@@ -55,11 +58,14 @@ public class ClienteNormal extends Cliente {
             escolhido.setEmprestimo(false);
         }
     }
+
     //metodo local de mostrar a informação do cliente
     public void minhaInfo(){
         ClienteBD.info(this);
         System.out.println(this);
     }
+
+
     //metodo de formatação para exibição de livro
     public String formatacaoInfo(){
         if(escolhido == null){

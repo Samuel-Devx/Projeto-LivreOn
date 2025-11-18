@@ -8,6 +8,7 @@ import javax.crypto.spec.PSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 //Classe da bblioteca/livraria
 public class Biblioteca {
@@ -238,7 +239,20 @@ public class Biblioteca {
             System.out.println("Erro em conferir quantidade " + e.getMessage());
         }
     }
+    protected static void logar (Scanner teclado){
+        System.out.print("Digite seu email: ");
+        String email = teclado.next();
+        System.out.println("Digite sua senha: ");
+
     }
+
+
+    //Metodo de login
+    public static void logarConta(){
+
+    }
+    }
+
 
 
 

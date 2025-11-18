@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Scanner;
 
+import static java.time.LocalDate.*;
+
 public class AppCliente {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
@@ -64,17 +66,35 @@ public class AppCliente {
                         ClienteBD.info(cliente);
                         break;
                     case 2:
+                        LocalDate dataAtual = LocalDate.now();
                         System.out.print("Digite nome do livro: ");
                         String nomeDoLivro = teclado.next();
                         System.out.print("Digite a data de devolução: (yyyy/mm/dd) ");
                         String date = teclado.next();
-                        LocalDate data = LocalDate.parse(date);
+                        LocalDate data = parse(date);
+
+                        try {
+                            data = LocalDate.parse(date);
+                        } catch (Exception e) {
+                            System.out.println("Formato inválido! Use yyyy-mm-dd");
+                            return;
+                        }
+
                         int idCliente = ClienteBD.pesquisaId(cliente);
                         int idLivro = ClienteBD.pesquisaTitulo(nomeDoLivro);
-                        ClienteBD.aluguel(idCliente, idLivro, data);
-                        break;
+
+                        if(ClienteBD.pesquisaStaus(idCliente) == true && data.isAfter(dataAtual)){
+                            ClienteBD.aluguel(idCliente, idLivro, data);
+                            break;
+                        }
+                        else {
+                            System.out.println(
+                                    "Livro alugado ou indisponivel");
+                            break;
+                        }
+
                     case 3:
-                        System.out.println("Nome do livro que quer devolver: ");
+                        System.out.print("Nome do livro que quer devolver: ");
                         String resposta = teclado.next();
                         int idLivroDevolucao = ClienteBD.pesquisaTitulo(resposta);
                             ClienteBD.devolver(ClienteBD.pesquisaId(cliente), idLivroDevolucao);
