@@ -139,8 +139,24 @@ public class ClienteBD {
             throw new RuntimeException(e);
         }
     }
-
-
+        //pesquisa de Status
+        public static Boolean pesquisaStaus(int id){
+            String sql = "SELECT status FROM vw_tabela_cliente_status WHERE id = ?";
+            try(Connection con = MySqlConnector.getConnetion();
+            PreparedStatement st = con.prepareStatement(sql)) {
+                st.setInt(1, id);
+                ResultSet resultSet = st.executeQuery();
+                if(resultSet.next()){
+                    return resultSet.getBoolean("status");
+                }
+                else {
+                    return true;
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro em retornar o status do livro" + e.getMessage());
+                return true;
+        }
+    }
         //Metodo para alugar o livro(insert no DB)
         public static  void aluguel (int idCliente, int idLivro, LocalDate devolucao){
             String sql = "INSERT INTO aluguel (id_cliente, id_livro, data_aluguel, data_devolucao) VALUES  (?, ?, ?, ?)";
